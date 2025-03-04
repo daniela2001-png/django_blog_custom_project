@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.urls import reverse
+
 
 # Create your models here.
 class Post(models.Model):
@@ -26,3 +28,11 @@ class Post(models.Model):
     def __repr__(self):
         return f"Post(title={self.title}, content={self.content}, date_posted={self.date_posted}, author={self.author})"
 
+
+    def get_absolute_url(self) -> str:
+        """
+        Method to tell Django how to calculate the canonical URL for an object.
+        Return: A string that can be used to refer to the object over HTTP.
+        """
+        # 'post/<int:pk>/' where pk is passed as an optional param with kwargs
+        return reverse("post-detail", kwargs={"pk": self.pk})
